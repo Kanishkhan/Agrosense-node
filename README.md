@@ -31,7 +31,7 @@ System monitoring in resource-constrained environments
 By integrating FreeRTOS with hardware simulation, this project helped bridge theoretical OS concepts with practical embedded system implementations.
 
 🔧 Key Technical Features
-✅ Per-task dynamic memory quota enforcement
+Per-task dynamic memory quota enforcement
 
 🔐 Mutex-protected memory tracking using SemaphoreHandle_t
 
