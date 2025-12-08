@@ -39,6 +39,22 @@ Per-task dynamic memory quota enforcement
 
 🧠 Stack depth monitoring for all active tasks
 
+
+Output:
+
+🌾 Smart Irrigation Node Starting...
+[SensorTask] 🌱 Allocating 1024 bytes...
+[SensorTask] ✅ Allocated | Usage: 1024 / 2048
+[SensorTask] 🧹 Freed memory.
+
+[CommTask] 📡 Allocating 1780 bytes...
+[CommTask] ❌ Quota exceeded! Requested: 1780, Used: 0/2048
+
+[HeapMonitor] 📉 Free Heap: 18984 bytes | Min Ever: 17892 bytes
+
+[StackMonitor] 🧠 Stack - Sensor: 134 | Comm: 152 | HeapMon: 188 (words)
+
+
 🕒 Priority-based multitasking simulation for real-world embedded use cases
 
 🌱 Modular and scalable structure suitable for agricultural IoT applications
