@@ -64,10 +64,5 @@ The system is built using **C++** and **FreeRTOS** within the Arduino framework.
 
 Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
 
-## 👤 Author
-
-**Kanishk Khan**
--   GitHub: [@Kanishkhan](https://github.com/Kanishkhan)
-
 ---
 *Built for educational purposes to demonstrate OS concepts in Embedded Systems.*
