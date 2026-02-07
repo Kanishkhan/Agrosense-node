@@ -1,60 +1,73 @@
-🌾 Smart Irrigation Node with Real-Time Memory & Task Monitoring
-This project implements a FreeRTOS-based Smart Irrigation Node using an Arduino-compatible microcontroller. It simulates intelligent resource-constrained task execution for agricultural applications, with advanced tracking of memory and stack usage per task.
+# Agrosense Node 🌾
 
-The system is designed around two main concurrent tasks:
+**Agrosense Node** is a firmware implementation for a Smart Irrigation System, designed to run on FreeRTOS-enabled microcontrollers (e.g., ESP32). It simulates a resource-constrained IoT environment where sensor data collection and network communication must coexist efficiently.
 
-SensorTask – simulates data collection from soil/moisture sensors.
+The project demonstrates advanced embedded systems concepts including real-time task scheduling, dynamic memory management with quotas, and continuous system health monitoring.
 
-CommTask – handles simulated communication with a base station or cloud.
+## 🚀 Key Features
 
-Each task is assigned a memory quota, and dynamic memory allocations are made through a custom wrapper (pvPortMallocWithQuota) that checks whether a task has exceeded its allowed heap usage. Similarly, all deallocations are tracked to maintain per-task memory integrity.
+-   **Real-Time Multitasking**: Leverages FreeRTOS to handle concurrent operations:
+    -   `SensorTask`: Simulates periodic data acquisition from soil/environmental sensors.
+    -   `CommTask`: Simulates data packet preparation and transmission to a gateway/cloud.
+-   **Smart Memory Management**:
+    -   **Quota Enforcement**: Custom `pvPortMallocWithQuota` allocator prevents any single task from hogging system memory.
+    -   **Leak Detection**: Tracks allocated vs. freed memory per task.
+    -   **Thread Safety**: Uses Mutexes (`SemaphoreHandle_t`) to protect shared memory tracking structures.
+-   **System Health Monitoring**:
+    -   **Heap Monitor**: Continuously tracks free heap size and reports minimum ever free heap to detect potential fragmentation or leaks.
+    -   **Stack Monitor**: Uses `uxTaskGetStackHighWaterMark` to warn about potential stack overflows for every active task.
 
-A separate HeapMonitor task continuously logs:
+## 🛠️ Technical Architecture
 
-Current free heap space
+The system is built using **C++** and **FreeRTOS** within the Arduino framework.
 
-Minimum ever free heap recorded
+| Component | Description |
+| :--- | :--- |
+| **SensorTask** | Allocates memory to simulate reading sensors, processes data, and frees memory. |
+| **CommTask** | Simulates varying network packet sizes and transmission delays. |
+| **HeapMonitor** | Diagnostic task that prints global heap statistics. |
+| **StackMonitor** | Diagnostic task that checks stack usage for `SensorTask` and `CommTask`. |
 
-Another task, StackMonitor, reports stack usage across all key tasks using uxTaskGetStackHighWaterMark, helping visualize task health and preventing overflow.
+## 📦 Getting Started
 
-🎓 Academic Context
-This project was developed during my 4th semester as part of the Operating Systems subject coursework. The goal was to understand:
+### Prerequisites
+-   **Hardware**: ESP32 or any Arduino-compatible board with FreeRTOS support.
+-   **Software**:
+    -   [VS Code](https://code.visualstudio.com/) with [PlatformIO](https://platformio.org/) (Recommended)
+    -   OR [Arduino IDE](https://www.arduino.cc/en/software)
 
-Real-time task scheduling
+### Installation
 
-Memory management in embedded systems
+1.  **Clone the Repository**:
+    ```bash
+    git clone https://github.com/Kanishkhan/Agrosense-node.git
+    ```
+2.  **Open the Project**:
+    -   **PlatformIO**: Open the folder as a project.
+    -   **Arduino IDE**: Open `AgroSense.cpp` (you may need to rename it to `.ino` or place it in a matching folder structure depending on your setup).
+3.  **Upload**: Connect your board and upload the firmware.
+4.  **Monitor**: Open the Serial Monitor at **115200 baud** to see the logs.
 
-Inter-task communication and synchronization
+## 📊 Example Output
 
-System monitoring in resource-constrained environments
-
-By integrating FreeRTOS with hardware simulation, this project helped bridge theoretical OS concepts with practical embedded system implementations.
-
-🔧 Key Technical Features
-Per-task dynamic memory quota enforcement
-
-🔐 Mutex-protected memory tracking using SemaphoreHandle_t
-
-📉 Real-time heap usage monitoring via FreeRTOS APIs
-
-🧠 Stack depth monitoring for all active tasks
-
-
-Output:
-
+```text
 🌾 Smart Irrigation Node Starting...
-[SensorTask] 🌱 Allocating 1024 bytes...
-[SensorTask] ✅ Allocated | Usage: 1024 / 2048
-[SensorTask] 🧹 Freed memory.
+[SensorTask] 🌱 Allocating 512 bytes...
+[SensorTask] ✅ Allocated | Usage: 512 / 2048
+[CommTask] 📡 Allocating 1024 bytes...
+[HeapMonitor] 📉 Free Heap: 210452 bytes | Min Ever: 210400 bytes
+[StackMonitor] 🧠 Stack - Sensor: 1024 | Comm: 1024 | HeapMon: 1024 (words)
+[CommTask] 🧹 Freed memory.
+```
 
-[CommTask] 📡 Allocating 1780 bytes...
-[CommTask] ❌ Quota exceeded! Requested: 1780, Used: 0/2048
+## 🤝 Contributing
 
-[HeapMonitor] 📉 Free Heap: 18984 bytes | Min Ever: 17892 bytes
+Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
 
-[StackMonitor] 🧠 Stack - Sensor: 134 | Comm: 152 | HeapMon: 188 (words)
+## 👤 Author
 
+**Kanishk Khan**
+-   GitHub: [@Kanishkhan](https://github.com/Kanishkhan)
 
-🕒 Priority-based multitasking simulation for real-world embedded use cases
-
-🌱 Modular and scalable structure suitable for agricultural IoT applications
+---
+*Built for educational purposes to demonstrate OS concepts in Embedded Systems.*
